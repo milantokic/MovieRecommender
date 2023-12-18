@@ -1,6 +1,34 @@
-class Movie():
-    def __init__(self, title: str, genres, year: int, runtime):
-        # Calling the Staticmethods for input validation#
+class Movie:
+    ALLOWED_GENRES = ['Game-Show',
+                      'Drama',
+                      'Sci-Fi',
+                      'Action',
+                      'Western',
+                      'News',
+                      'War',
+                      'Talk-Show',
+                      'Biography',
+                      'Documentary',
+                      'Reality-TV',
+                      'Film-Noir',
+                      'Adventure',
+                      'Crime',
+                      'Mystery',
+                      'Sport',
+                      'Family',
+                      'Fantasy',
+                      'Animation',
+                      'Music',
+                      'Comedy',
+                      'Thriller',
+                      'History',
+                      'Romance',
+                      'Musical',
+                      'Adult',
+                      'Horror']
+
+    def __init__(self, title: str, genres: list, year: int, runtime):
+        # Calling the Static-methods for input validation#
         self.validate_title(title)
         self.validate_year(year)
         self.validate_genre(genres)
@@ -23,6 +51,8 @@ class Movie():
     def validate_genre(genres):
         if not isinstance(genres, list):
             raise ValueError('Genre should be a list')
+        if not all(genre in Movie.ALLOWED_GENRES for genre in genres):
+            raise ValueError(f'Invalid genre. Allowed genres are: {Movie.ALLOWED_GENRES}')
 
     @staticmethod
     def validate_year(year):
