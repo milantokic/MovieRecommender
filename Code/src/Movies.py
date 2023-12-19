@@ -37,9 +37,11 @@ class Movie:
         self.genres = genres
         self.year = year
         self.runtime = runtime
+        self.reviews = {}
 
     def __repr__(self):
         return repr(f'Title: {self.title}, year: {self.year}, genres: {self.genres} with runtime: {self.runtime}')
+
 
     # Static methods are functions on classes, not on instances, there is no self.variable#
     @staticmethod
