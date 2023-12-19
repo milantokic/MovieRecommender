@@ -13,6 +13,7 @@ class User:
         self.username = username
         self.user_ID = User.user_counter
         self.watched_movies = []
+        self.reviewed_movies = {}
 
     def watch_movie(self, movie: Movie):
         if not isinstance(movie, Movie):
