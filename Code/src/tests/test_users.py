@@ -28,14 +28,7 @@ class TestUserClass(unittest.TestCase):
         user.watch_movie(movie1)
         user.watch_movie(movie1)
 
-        self.assertEqual(len(user.watched_movies),1)
-
-    # def test_id_counter(self):
-    #     user1 = User('Milan')
-    #     user2 = User('Milan2')
-    #
-    #     self.assertEqual(user1.user_ID, 1)
-    #     self.assertEqual(user2.user_ID, 2)
+        self.assertEqual(len(user.watched_movies), 1)
 
 
 if __name__ == '__main__':

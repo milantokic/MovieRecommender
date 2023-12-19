@@ -9,7 +9,6 @@ class TestRatingClass(unittest.TestCase):
         self.user = User('John')
         self.movie = Movie('Inception', ['Action', 'Sci-Fi'], 2010, 148)
 
-
     def test_valid_rating_instance(self):
         self.user.watch_movie(self.movie)
         rating = Rating(self.user, self.movie, 4.5, 'Great movie!')
@@ -20,7 +19,7 @@ class TestRatingClass(unittest.TestCase):
         self.assertEqual(rating.review, 'Great movie!')
 
         # Check that the review is added to the movie's reviews
-        self.assertEqual(self.movie.reviews[self.user.user_ID], 'Great movie!')
+        self.assertEqual(self.movie.reviews[self.user.id], 'Great movie!')
 
         # Check that the review is added to the user's reviewed movies
         self.assertEqual(self.user.reviewed_movies[self.movie.title], 'Great movie!')

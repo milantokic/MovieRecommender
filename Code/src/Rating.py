@@ -1,5 +1,10 @@
 from src.Movies import Movie
 from src.User import User
+from src.database_config import setup_rating_table, create_connection
+
+connection = create_connection()
+cursor = connection.cursor()
+setup_rating_table(connection)
 
 
 class Rating:
@@ -18,7 +23,8 @@ class Rating:
         self.movie = movie
         self.score = score
         self.review = review
-        self.movie.reviews[self.user.user_ID] = self.review
+        self.insert_to_db(user, movie)
+        self.movie.reviews[self.user.id] = self.review
         self.user.reviewed_movies[self.movie.title] = self.review
 
     @staticmethod
@@ -41,6 +47,12 @@ class Rating:
         if not isinstance(review, str):
             raise ValueError('review should be a string')
 
-    def validate_user_watched(self, user, movie):
+    @staticmethod
+    def validate_user_watched(user, movie):
         if not (movie in user.watched_movies):
             raise ValueError(f"User {user.username} did not watch movie {movie.title}")
+
+    def insert_to_db(self, user, movie):
+        cursor.execute("INSERT INTO rating (user_id, movie_id, score, review) VALUES (?, ?, ?, ?)",
+                       (user.id, movie.movie_id, self.score, self.review))
+        connection.commit()

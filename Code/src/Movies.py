@@ -1,3 +1,10 @@
+from src.database_config import setup_movie_table, create_connection
+
+connection = create_connection()
+cursor = connection.cursor()
+setup_movie_table(connection)
+
+
 class Movie:
     ALLOWED_GENRES = ['Game-Show',
                       'Drama',
@@ -26,12 +33,15 @@ class Movie:
                       'Musical',
                       'Adult',
                       'Horror']
+    movie_counter = 0
 
     def __init__(self, title: str, genres: list, year: int, runtime):
         # Calling the Static-methods for input validation#
         self.validate_title(title)
+        Movie.movie_counter += 1
         self.validate_year(year)
         self.validate_genre(genres)
+        self.movie_id = Movie.movie_counter
 
         self.title = title
         self.genres = genres
@@ -39,9 +49,16 @@ class Movie:
         self.runtime = runtime
         self.reviews = {}
 
-    def __repr__(self):
-        return repr(f'Title: {self.title}, year: {self.year}, genres: {self.genres} with runtime: {self.runtime}')
+        self.insert_to_db()
 
+    def __repr__(self):
+        return repr(
+            f'ID: {self.movie_id} Title: {self.title}, year: {self.year}, genres: {self.genres} with runtime: {self.runtime}')
+
+    def insert_to_db(self):
+        cursor.execute("INSERT INTO movies (id, title, genres, year, runtime) VALUES (?, ?, ?, ?, ?)",
+                       (self.movie_id, self.title, ','.join(self.genres), self.year, self.runtime))
+        connection.commit()
 
     # Static methods are functions on classes, not on instances, there is no self.variable#
     @staticmethod
